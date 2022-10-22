@@ -2,8 +2,58 @@
   // display: flex;
   // justify-content: center;
   // align-items: flex-start;
+  h1 {
+    text-align: center;
+  }
+  a {
+    text-decoration: none; 
+    color: $bgdark;
+  }
   .card {
     width: 13rem;
     height: 100%;
+  }
+}
+
+.filter-container {
+  background-color: rgba(63, 37, 72, 0.9);
+
+  border-radius: 4px;
+
+  color: $headercolor;
+  margin-bottom: 20px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .search {
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    background-color: hsl(0, 0%, 100%);
+    border-color: hsl(0, 0%, 80%);
+    min-height: 38px;
+    // border: none;
+    padding: 2px 8px;
+    // width: calc(30px + 3vw)
+    width: 100%;
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  button {
+    border-radius: 4px;
+    border: none;
+    margin: 3px;
+  }
+  .btn-clicked{
+    background-color: $headercolor;
   }
 }

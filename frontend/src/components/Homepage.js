@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Select from 'react-select'
+import ListGroup from 'react-bootstrap/ListGroup'
 
 const Homepage = () => {
 
@@ -138,26 +139,30 @@ const Homepage = () => {
 
   return (
     <Container as="main" className="homepage-wrapper">   
-      <h1>Movies</h1>
-      <Row>
-        <h2>Filters</h2>
-        <div className='search-container text-center text-end my-md-0 my-3'>
-          <input type="text" className="seach" placeholder="Search..." onChange={handleSearch} name="search" value={filters.search}></input>
-        </div>
-        <div className='button-container'>
-          <h5>Genres</h5>
-          {genres.map((item) => {
-            return <button className={genreButton === item ? "btn-clicked" : ""} onClick={handleGenreFilter} name="genres" value={item} key={item}>{item}</button>
-          })}
-        </div>
-        <div className='sort-container'>
-          <Select 
-            options={sortOptions}
-            onChange={handleSortChange}
-          />
-        </div>
-      </Row>
-      <Row>
+      <div className="filter-container mt-3 p-3">
+        <h1>Top 250 IMDb Movies</h1>
+        <Row>
+          <Col className='search-container col-12' md="6">
+            <input type="text" className="search" placeholder="Search..." onChange={handleSearch} name="search" value={filters.search}></input>
+          </Col>
+          <Col className='sort-container col-12 my-3 my-md-0' md="6">
+            <Select 
+              options={sortOptions}
+              onChange={handleSortChange}
+              placeholder='sort by...'
+            />
+          </Col>
+          <Col className='genre-container col-12 mt-md-3'>
+            <div className='button-container'>
+              {genres.map((item) => {
+                return <button className={genreButton === item ? "btn-clicked" : ""} onClick={handleGenreFilter} name="genres" value={item} key={item}>{item}</button>
+              })}
+            </div>
+          </Col>
+        </Row>
+
+      </div>
+      <Row className="d-flex justify-content-between">
         { allMovies.length > 0
           ?
           filteredMovies.map(movie => {
@@ -167,9 +172,12 @@ const Homepage = () => {
                 <Link key={_id} to={`/movies/${_id}`}>
                   <Card>
                     <Card.Img variant="top" src={image_url}></Card.Img>
-                    <Card.Body className="bg-light">
-                      <Card.Title className="text-center mb-0">{name} - {rating}</Card.Title>
+                    <Card.Body className="d-flex justify-content-center align-items-center">
+                      <Card.Title className="text-center mb-0">{name}</Card.Title>
                     </Card.Body>
+                    <ListGroup className="list-group-flush">
+                      <ListGroup.Item className="text-center">IMDb Rating: ⭐️ {rating}</ListGroup.Item>
+                    </ListGroup>
                   </Card>
                 </Link>
               </Col>
