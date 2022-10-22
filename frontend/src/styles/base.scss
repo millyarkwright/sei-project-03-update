@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Electrolize&family=Lato:wght@300;400;700&display=swap');
+* {
+  font-family: 'cinzel', sans-serif;
+}
+
+.site-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  background-color: rgba(241, 235, 221);
+}
+
+main {
+  flex-grow: 1;
+}
+
+
+a {
+  text-decoration: none;
+}
+

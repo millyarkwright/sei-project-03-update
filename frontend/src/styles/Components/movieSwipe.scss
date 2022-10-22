@@ -1,0 +1,143 @@
+.movieSwiping-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.movieSwipe-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  height: 90%;
+  width: calc(100%*0.8);
+}
+
+.preference-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  .movieImage {
+    padding: 5px;
+    min-width: 250px;
+    max-width: 400px;
+    img {
+    border-radius: 5px;
+    margin-left: 0px;
+    max-width: 300px;
+    }
+  }
+  .preferenceButtons {
+    margin: 30px 50px;
+    button {
+      padding: 30px 50px;
+      font-size: 40px;
+      border-radius: 50%;
+      }
+  }
+}
+
+
+button#no{
+  border-color: red;
+  color: red;
+}
+button#yes{
+  border-color: green;
+  color: green
+}
+
+button#yes:hover {
+  background-color: darkgreen;
+  border: black;
+  color: black;
+}
+
+button#no:hover {
+  background-color: darkred;
+  border: black;
+  color: black;
+}
+
+
+
+div#movie-details {
+  font-size: 20px;
+}
+
+p#year {
+  font-size: 30px;
+}
+
+h2#movies-name {
+  font-size: 50px;
+  text-align:center;
+}
+.min-display-button{
+  display:none;
+}
+
+//! break point
+
+@media (max-width: 690px) {
+  .preference-container {
+    .movieImage {
+      min-width: 150px;
+    }
+    .preferenceButtons {
+      margin: 30px 20px;
+      button {
+        padding: 30px 40px;
+        font-size: 30px;
+        }
+    }
+  }
+}
+
+
+@media (max-width: 500px) {
+  .preference-container {
+    .preferenceButtons {
+      button {
+        font-size:20px;
+        padding: 30px;
+        background-color: none;
+        }
+    }
+  }
+  .preference-container {
+    .preferenceButtons {
+      button:hover {
+        background-color: none;
+        }
+    }
+  }
+  .movieImage {
+    display: none;
+  }
+
+  h2#movies-name {
+    font-size: 40px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.min-display-button {
+  display: flex;
+  justify-content: center;
+  button {
+    display:unset;
+    text-align:center;
+    margin: 5px 15px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: $bgdark;
+    color: $headercolor;
+    border: solid;
+  } a {
+    text-decoration: none;
+  }
+  }
+}

@@ -1,0 +1,122 @@
+
+.movieInfo-wrapper {
+  margin-top: 30px;
+}
+.movieInfoImage.col {
+  display: flex;
+  justify-content: center;
+}
+header {
+  display: flex;
+  color: $black;
+  h1 {
+    font-size:30px;
+  }
+  div {
+    padding-right: 20px;
+    display: flex;
+    flex-direction: column;
+    p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.movieInfo-container  {
+  display: flex;
+  align-items: center;
+}
+
+.movieInfoImage {
+  padding: 5px;
+  img {
+    margin-left: 20px;
+    max-width: 100%;
+  }
+} 
+
+.movieDetails {
+  padding: 5px;
+  color: black;
+  margin-left: 10px;
+  div {
+    display: flex;
+    align-items: flex-start;
+    p {
+      margin-bottom: 8px;
+    }
+    .col-md-8 {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+  }
+  }
+  .button-style-div {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0px 0px 40px 0px;
+  }
+    .genre-container  {
+      .genre {
+        margin: 0px 15px 0px 0px;      
+        padding: 5px 10px;
+        border-radius: 10px;
+        background-color: $bglight;
+        color: $black;
+        border: solid;
+      }
+    }
+    .actors-container, .directors-container {
+      justify-content: center;
+    }
+    p.actors, p.directors {
+      margin-right: 10px;
+  }
+    .imdbLink, button.back-button{
+      margin: 5px 15px;
+      padding: 5px 10px;
+      border-radius: 10px;
+      background-color: $bgdark;
+      color: $headercolor;
+      border: solid;
+        a {
+          text-decoration: none;
+          color: $headercolor;
+        }
+      }
+    .imdbRating{
+      display:flex;
+      flex-direction: column;
+      p{
+      text-align:center;
+      }
+    }
+  }
+  .actors-and-directors-container {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-height: 776px){
+  .movieInfo-wrapper.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+}
+
+@media (max-width: 767px) {
+  .movieInfoImage.col{
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .imdbRating p {
+    display: none;
+  }
+  .lead{    
+    padding: 20px 0px 0px 0px;}
+}
