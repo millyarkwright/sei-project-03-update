@@ -16,9 +16,23 @@ const getAll = async (req, res, next) => {
   }
 }
 
-// ! Get individual user
 
-const getSingle = async (req, res, next) => {
+// ! Get all usernames 
+
+const getAllUsernames = async (req, res, next) => {
+  try {
+    const allUsernames  = await UserModel.find().select('username _id')
+    // console.log('allusers->', allUsers)
+    return res.status(200).json(allUsernames)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+}
+
+// ! Get Current User
+
+const getCurrentUser = async (req, res, next) => {
   const { id: currentUserId } = req.currentUser
   try {
     const foundUser = await UserModel.findById(currentUserId)
@@ -191,4 +205,4 @@ const deleteProfile = async (req, res, next) => {
 }
 
 
-export default ({ getAll, getSingle, register, login, updateProfile, deleteProfile })
+export default ({ getAll, getAllUsernames, getCurrentUser, register, login, updateProfile, deleteProfile })

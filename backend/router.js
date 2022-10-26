@@ -17,11 +17,16 @@ router.route('/movies/:movieId').get(moviesController.getSingle)
 
 
 // ! User Endpoints
-router.route('/users').get(userController.getAll)
-router.route('/register').post(userController.register)
-router.route('/login').post(userController.login)
+router.route('/users')
+  .get(userController.getAll)
+router.route('/usernames')
+  .get(userController.getAllUsernames)
+router.route('/register')
+  .post(userController.register)
+router.route('/login')
+  .post(userController.login)
 router.route('/profile')
-  .get(auth, userController.getSingle)
+  .get(auth, userController.getCurrentUser)
   .put(auth, userController.updateProfile)
   .delete(auth, userController.deleteProfile)
 
@@ -35,9 +40,11 @@ router.route('/preferences/likes/:movieId')
 router.route('/preferences/dislikes/:movieId')
   .put(auth, moviePreferenceController.updateDislikes)
 router.route('/preferences')
-  .get(auth, moviePreferenceController.getUserPreferences)
+  .get(auth, moviePreferenceController.getCurrentUserPreferences)
 router.route('/preferences/all')
   .get(moviePreferenceController.getAllUserPreferences)
+router.route('/preferences/:username')
+  .get(moviePreferenceController.getUserPreferences)
 
 
 
