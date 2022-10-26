@@ -15,17 +15,13 @@ const PageNavBar = () => {
 const navigate = useNavigate()
 
 const handleLogout = () => {
-  window.localStorage.removeItem('token')
+  window.localStorage.removeItem('watchit_token')
   navigate('/login')
 }
   return (
     <Navbar expand='md'>
       <Container as='section'>
-        { userIsAuthenticated() ?
-          <Navbar.Brand as={Link} to='/match'>🍿 Watch<span>it</span> 🍿</Navbar.Brand> 
-          :
-          <Navbar.Brand as={Link} to='/'>🍿 Watch<span>it</span> 🍿</Navbar.Brand> 
-        }
+        <Navbar.Brand as={Link} to='/'>🍿 Watch<span>it</span> 🍿</Navbar.Brand> 
         <Navbar.Toggle aria-controls='basic-navbar-nav'></Navbar.Toggle>
         <Navbar.Collapse id='basic-navbar-nav' className='justify-content-end'>
           { userIsAuthenticated()

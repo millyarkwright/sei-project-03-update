@@ -8,6 +8,7 @@ import Register from './components/auth/Register'
 import MovieInfo from './components/movies/MovieInfo'
 import MovieSwiping from './components/movies/MovieSwiping'
 import Match from './components/movies/MovieMatch'
+import MatchedMovies from './components/movies/MatchedMoviesIndex'
 import ProfilePage from './components/ProfilePage'
 import NotFoundPage from './components/NotFoundPage'
 import Homepage from './components/Homepage'
@@ -34,6 +35,7 @@ function App() {
             <Route path="/register" element={<Register></Register>}></Route>
             <Route path="/swipe" element={<MovieSwiping></MovieSwiping>}></Route>
             <Route path="/match" element={<Match></Match>}></Route>
+            <Route path="/matchedmovies" element={<MatchedMovies></MatchedMovies>}></Route>            
             <Route path="/profile" element={<ProfilePage></ProfilePage>}></Route>
             <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
           </Routes>

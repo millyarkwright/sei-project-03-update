@@ -7,14 +7,14 @@ import { useNavigate } from 'react-router-dom'
 // setting token
 
 export const setToken = (token) => {
-  window.localStorage.setItem('token', token)
+  window.localStorage.setItem('watchit_token', token)
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
 }
 
 // getting token
 
 export const getToken = () => {
-  return window.localStorage.getItem('token')
+  return window.localStorage.getItem('watchit_token')
 }
 
 // verify token by checking it exists and is JWT, aiming to return payload as object
