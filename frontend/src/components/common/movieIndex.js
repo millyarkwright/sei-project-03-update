@@ -8,10 +8,9 @@ import Card from 'react-bootstrap/Card'
 import Select from 'react-select'
 import ListGroup from 'react-bootstrap/ListGroup'
 
-const MovieIndex = ({ genres, movieData, error}) => {
+const MovieIndex = ({ genres, movieData, error, title}) => {
 
   const [filteredMovies, setFilteredMovies] = useState([])
-  const [genreButton, setGenreButton] = useState('All')
   const [filters, setFilters] = useState({
     genres: 'All',
     search: '',
@@ -23,6 +22,7 @@ const MovieIndex = ({ genres, movieData, error}) => {
     { value: 'highest', label: 'Highest Rating'},
     { value: 'lowest', label: 'Lowest Rating'},
   ]
+  const [genreButton, setGenreButton] = useState('All')
 
   // ! Execution
 
@@ -93,7 +93,7 @@ const MovieIndex = ({ genres, movieData, error}) => {
   return (
     <>
       <div className="filter-container mt-3 p-3">
-        <h1>Top 250 IMDb Movies</h1>
+        <h1>{title}</h1>
         <Row>
           <Col className='search-container col-12' md="6">
             <input type="text" className="search" placeholder="Search..." onChange={handleSearch} name="search" value={filters.search}></input>

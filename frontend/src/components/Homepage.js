@@ -51,6 +51,7 @@ const Homepage = () => {
         genres={genres}
         movieData={allMovies}
         error={error}
+        title="Top 250 IMDb Movies"
       />
     </Container>
   )
