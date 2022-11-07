@@ -1,6 +1,6 @@
 // Import React Hooks & Axios
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useLocation } from 'react-router-dom'
 import axios from 'axios'
 
 // Import React Bootstrap
@@ -11,13 +11,27 @@ import { API_URL } from '../../config'
 
 // Import Helpers
 import { userIsAuthenticated } from '../helpers/auth'
+import { randomMovie } from '../helpers/movieFunctions'
 
 const MovieInfo = () => {
+
+  const location = useLocation()
 
   const { movieId } = useParams()
   const [movie, setMovie] = useState()
   const [error, setError] = useState('')
+  const [matchedMovieIds, setMatchedMovieIds] = useState([])
+  const [watchWith, setWatchWith] = useState([])
 
+    // Save matched movies to state.
+  
+    useEffect(() => {
+    if (location.state != null) {
+        console.log(location.state.matchedMovieIds)
+        setMatchedMovieIds(location.state.matchedMovieIds)
+        setWatchWith(location.state.watchWith)
+      }
+    },[matchedMovieIds])
 
   useEffect(() => {
     const getData = async () => {
@@ -77,16 +91,21 @@ const MovieInfo = () => {
                   </div>
               </div>
                 <div className="button-style-div">
+                  <button className="imdbLink"><a href={`https://www.imdb.com${movie.imdb_url}`}target="_blank" rel="noreferrer">Take me to IMDb</a></button>
                   {userIsAuthenticated() ? 
                     <Link to={`/swipe`}>  
                         <button className="back-button">Back To Swipe</button>
                     </Link>
                   :
-                    <Link to={`/`}>  
+                    <Link to={`/`}>
                       <button className="back-button">Back To Movies</button>
                     </Link>
                   }
-                    <button className="imdbLink"><a href={`https://www.imdb.com${movie.imdb_url}`}target="_blank" rel="noreferrer">Take me to IMDb</a></button>
+                  {matchedMovieIds.length >= 1 && 
+                    <Link to={`/movies/${randomMovie(matchedMovieIds)}`} state={{matchedMovieIds: matchedMovieIds}}> 
+                      <button className="back-button">Next Random Movie</button>
+                    </Link>
+                  }
                 </div>
 
             </div>

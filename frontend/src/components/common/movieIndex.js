@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card'
 import Select from 'react-select'
 import ListGroup from 'react-bootstrap/ListGroup'
 
-const MovieIndex = ({ genres, movieData, error, title}) => {
+const MovieIndex = ({ genres, movieData, error, title, watchWith}) => {
 
   const [filteredMovies, setFilteredMovies] = useState([])
   const [filters, setFilters] = useState({

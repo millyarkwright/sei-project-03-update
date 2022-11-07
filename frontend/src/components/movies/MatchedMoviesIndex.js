@@ -12,20 +12,28 @@ import MovieIndex from '../common/movieIndex'
 
 const MatchedMovies = () => {
 
-  const location = useLocation()
+  // const { state } = useLocation()
+  const { state } = useLocation()
+
+  
 
   // ! State
   const [allMovies, setAllMovies] = useState([])
   const [matchedMovieIds, setMatchedMovieIds] = useState([])
   const [matchedMovies, setMatchedMovies] = useState([])
+  const [watchWith, setWatchWith] = useState([])
   const [genres, setGenres] = useState([])
   const [error, setError] = useState('')
 
   // Save matched movies to state.
   
   useEffect(() => {
-    console.log('location.state', location.state)
-    setMatchedMovieIds(location.state)
+    console.log('state', state)
+    console.log('state.matchedMovies', state.matchedMovieIds)
+    console.log('state.watchWith', state.watchWith)
+
+    setMatchedMovieIds(state.matchedMovieIds)
+    setWatchWith(state.watchWith)
   },[])
 
   // ! Request
@@ -62,7 +70,8 @@ const MatchedMovies = () => {
         genres={genres}
         movieData={matchedMovies}
         error={error}
-        title="Matched Movies"
+        title='Matched Movies'
+        watchWith={watchWith}
       />
     </Container>
   )

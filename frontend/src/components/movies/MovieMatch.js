@@ -5,6 +5,9 @@ import axios from 'axios'
 import Select from 'react-select'
 
 import NeedToLogIn from '../helpers/redirect.js'
+import { randomMovie } from '../helpers/movieFunctions'
+import { shuffle } from '../helpers/movieFunctions'
+
 
 const Match = () => {
 
@@ -64,7 +67,7 @@ const Match = () => {
       console.log('chosenUserPreferences data', data)
       return data.moviesLiked 
     } catch (error) {
-      setError(setError)
+      setError(error)
       setErrorStatus(error.response.status)
     }
   }
@@ -102,13 +105,21 @@ const Match = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
     // console.log('handle submit event', event)
-    const buttonClicked = event.nativeEvent.submitter.name
-    if (buttonClicked === "randomMovie") {
-      navigate(`/movies/${matchedMovies[Math.floor(Math.random() * matchedMovies.length)]}`, {state: matchedMovies})
-    } else if (buttonClicked === "movieIndex") {
-      navigate(`/matchedmovies`, {state: matchedMovies})
+    if ('usernames' in watchWith && watchWith.usernames.length > 0) {
+      const buttonClicked = event.nativeEvent.submitter.name
+      if (buttonClicked === "randomMovie") {
+        navigate(`/movies/${randomMovie(matchedMovies)}`, {state: { matchedMovieIds: matchedMovies, watchWith: watchWith }})
+      } else if (buttonClicked === "movieIndex") {
+        navigate(`/matchedmovies`, {state: { matchedMovieIds: matchedMovies, watchWith: watchWith }})
+      } 
+    } else {
+        setError({message: 'Please select a user'})
     }
 }
+
+// useEffect(() => {
+//   shuffle(matchedMovies)
+// },[matchedMovies])
 
 // ! JSX
 
