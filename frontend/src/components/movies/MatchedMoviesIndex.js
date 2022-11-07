@@ -1,6 +1,7 @@
 // * Hooks 
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useLocation } from "react-router-dom"
+
 // * Axios & API URL
 import axios from 'axios'
 import { API_URL } from "../../config"
@@ -11,9 +12,12 @@ import MovieIndex from '../common/movieIndex'
 
 const MatchedMovies = () => {
 
+  const location = useLocation()
+
   // ! State
   // Data
   const [allMovies, setAllMovies] = useState([])
+  const [matchedMovie, setMatchedMovies] = useState([])
   // Filters
   const [genres, setGenres] = useState([])
   const [filteredMovies, setFilteredMovies] = useState([])
@@ -35,15 +39,22 @@ const MatchedMovies = () => {
     { value: 'lowest', label: 'Lowest Rating'},
   ]
 
+  // Save matched movies to state.
+  
+  useEffect(() => {
+    console.log('location.state', location.state)
+    setMatchedMovies(location.state)
+  },[])
+
   // ! Request
   useEffect(() => {
     const getData = async () => {
       try {
         const { data } = await axios.get(`${API_URL}/movies`)
-        console.log('data', data)
+        // console.log('data', data)
 
         const movies = data.sort((a,b) => a.name.localeCompare(b.name))
-        console.log('movies->', movies)
+        // console.log('movies->', movies)
 
         // Map through data to get movie genres, flatten to remove the arrays within the array (so just one array). Sort genres alphabetically. Set to remove duplicates.
         const genres = [...new Set(data.map(movie => movie.genre).flat().sort())]
@@ -62,6 +73,7 @@ const MatchedMovies = () => {
     }
     getData()
   },[])
+
 
   // ! Execution
 

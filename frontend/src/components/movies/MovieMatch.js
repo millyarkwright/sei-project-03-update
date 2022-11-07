@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { API_URL } from "../../config.js"
 import axios from 'axios'
 import Select from 'react-select'
@@ -22,12 +22,11 @@ const Match = () => {
 
   const [matchedMovies, setMatchedMovies] = useState([])
 
+// * Get Current User Data
   useEffect(() => {
     const getCurrentUserData = async () => {
       try {
         const { data } = await axios.get(`${API_URL}/profile`)
-        // console.log('CURRENT USER DATA', data.moviesLiked)
-        // setAllMoviesLiked(data.moviesLiked)
         setUserData(data)
       } catch (error) {
         setError(error)
@@ -43,7 +42,7 @@ const Match = () => {
       try {
         const { data } = await axios.get(`${API_URL}/usernames`)
         let usernameOptions = data.map(user => ({ value: user._id, label: user.username }))
-        // console.log('username options?', usernameOptions)
+        // console.log('username options', usernameOptions)
         setUsernameOptions(usernameOptions)
       } catch (error) {
         setError(setError)
@@ -53,31 +52,12 @@ const Match = () => {
     getUsernames()
   }, [])
 
-  useEffect(() => {
-    console.log('-------matched movies-------')
-    console.log(matchedMovies)
-  }, [matchedMovies])
   
-
+  // * Calling the findCommonMovies function when watchWith state updates
   useEffect(() => {
-    // if('usernames' in watchWith){
-      // console.log('USERNAMES EXIST')
-      findCommonMovies()
-    // }
+    findCommonMovies()
   }, [watchWith])
-
-  // ! Executions
-
-
-  const handleUsernameChange = (event) => {
-    // the event here is the selectedUsernames, returning an array of objects (label and value of chosen users)
-    const selectedUsernames = event.map((item) => { return item.label })
-    const selectedUserIds = event.map((item) => { return item.value })
-    setSelectedUsernames([...event])
-    setWatchWith({ ...watchWith, 'usernames': selectedUsernames, 'ids': selectedUserIds })
-  }
-
-
+  
   const getChosenUserPreferences = async (username) => {
     try {
       const {data} = await axios.get((`${API_URL}/preferences/${username}`))
@@ -93,7 +73,6 @@ const Match = () => {
     console.log('watchwith', watchWith)
     if ('usernames' in watchWith) {
       const chosenUserLikes = await Promise.all(watchWith.usernames.map(async result => {
-        console.log('RESULT', result)
         const chosenUserPreferences = await getChosenUserPreferences(result)
         return chosenUserPreferences
       }))
@@ -107,69 +86,57 @@ const Match = () => {
     }
   } 
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-
-    navigate(`/movies/${matchedMovies[Math.floor(Math.random() * matchedMovies.length)]}`)
-  
-}
+  // ! Executions
 
 
-
-  const handleSubmitOld = (event) => {
-    event.preventDefault()
-    // ERROR TEST
-    // const foundUser = allUsersAndTheirLikes.find(user => watchWith.username === user.username)
-    // if (foundUser) {
-    //   const userMoviesLiked = userData.moviesLiked
-    //   const foundUserMoviesLiked = foundUser.moviesLiked
-    //   console.log('userMoviesLiked-->',userMoviesLiked)
-    //   console.log('foundUserMoviesLiked-->',foundUserMoviesLiked)
-    //   const filteredMovies = userMoviesLiked.filter((movie) => {
-    //     console.log('movie -->', movie)
-    //     console.log('foundUserMoviesLiked.includes(movie) -->', foundUserMoviesLiked.includes('6308a0f76ab8e9f5ff99e1ad'))
-    //     console.log('foundUserMoviesLiked.includes(movie)',foundUserMoviesLiked.includes(movie))
-    //     return foundUserMoviesLiked.includes(movie)
-    //   })
-    //     if (filteredMovies.length === 0){
-    //     setError({message: 'Sadly, you have no films in common. Please keep swiping to find a match!' })
-    //   } else {
-    //     setMatchedMovies(filteredMovies)
-    //     // navigate(`/movies/matchedmovies` )
-
-    //     // navigate(`/movies/${filteredMovies[Math.floor(Math.random() * filteredMovies.length)]}`)
-    //   }
-    // } else {
-    //   setError({ message: 'Please enter a valid username'})
-    // }
+  const handleUsernameChange = (event) => {
+    // the event here is the selectedUsernames, returning an array of objects (label and value of chosen users)
+    const selectedUsernames = event.map((item) => { return item.label })
+    const selectedUserIds = event.map((item) => { return item.value })
+    setSelectedUsernames([...event])
+    setWatchWith({ ...watchWith, 'usernames': selectedUsernames, 'ids': selectedUserIds })
   }
 
-  // ! JSX
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    // console.log('handle submit event', event)
+    const buttonClicked = event.nativeEvent.submitter.name
+    if (buttonClicked === "randomMovie") {
+      navigate(`/movies/${matchedMovies[Math.floor(Math.random() * matchedMovies.length)]}`, {state: matchedMovies})
+    } else if (buttonClicked === "movieIndex") {
+      navigate(`/matchedmovies`, {state: matchedMovies})
+    }
+}
+
+// ! JSX
 
 return (
   <>
     { errorStatus === 401 ?
       <NeedToLogIn/>
-    :
+      :
       <main className="movieMatch">
-        <div className='match-container'>
-          <h1> I am watching with...  </h1>
-          <div className='form'>
+        <div className="match-container mx-5">
+          <h1 className="mb-4"> I am watching with...</h1>
+          <div className="form-container">
             <form onSubmit={handleSubmit}>
-              {/* <label htmlFor="users">users</label> */}
                 <Select
                   value={selectedUsernames}
                   name="usernames"
                   options={usernameOptions}
-                  className="basic-multi-select mb-3"
+                  className="basic-multi-select mb-4 px-2"
                   classNamePrefix="select"
                   isMulti
-                  onChange={handleUsernameChange} >
-                </Select>
-                <input type='submit' value="Submit" className='btn w-100'/>
+                  onChange={handleUsernameChange} />
+                <div className="matchButtons">
+                  <input type='submit' value="Give me a random matched movie" name="randomMovie" className="btn mx-2 mb-4 py-3"/>
+                  <input type='submit' value="Take me to all our matched movies" name="movieIndex" className="btn mx-2 mb-4 py-3"/>
+                </div>
             </form>
           </div>   
-          <h2> {error && error.message} </h2>
+          <h3> {error && error.message} </h3>
         </div>
       </main>
     }  
@@ -178,3 +145,31 @@ return (
 }
 
 export default Match
+
+  // const handleSubmitOld = (event) => {
+  //   event.preventDefault()
+  //   // ERROR TEST
+  //   // const foundUser = allUsersAndTheirLikes.find(user => watchWith.username === user.username)
+  //   // if (foundUser) {
+  //   //   const userMoviesLiked = userData.moviesLiked
+  //   //   const foundUserMoviesLiked = foundUser.moviesLiked
+  //   //   console.log('userMoviesLiked-->',userMoviesLiked)
+  //   //   console.log('foundUserMoviesLiked-->',foundUserMoviesLiked)
+  //   //   const filteredMovies = userMoviesLiked.filter((movie) => {
+  //   //     console.log('movie -->', movie)
+  //   //     console.log('foundUserMoviesLiked.includes(movie) -->', foundUserMoviesLiked.includes('6308a0f76ab8e9f5ff99e1ad'))
+  //   //     console.log('foundUserMoviesLiked.includes(movie)',foundUserMoviesLiked.includes(movie))
+  //   //     return foundUserMoviesLiked.includes(movie)
+  //   //   })
+  //   //     if (filteredMovies.length === 0){
+  //   //     setError({message: 'Sadly, you have no films in common. Please keep swiping to find a match!' })
+  //   //   } else {
+  //   //     setMatchedMovies(filteredMovies)
+  //   //     // navigate(`/movies/matchedmovies` )
+
+  //   //     // navigate(`/movies/${filteredMovies[Math.floor(Math.random() * filteredMovies.length)]}`)
+  //   //   }
+  //   // } else {
+  //   //   setError({ message: 'Please enter a valid username'})
+  //   // }
+  // }
