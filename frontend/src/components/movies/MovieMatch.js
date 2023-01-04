@@ -23,7 +23,7 @@ const Match = () => {
   const [usernameOptions, setUsernameOptions] = useState([])
   const [selectedUsernames, setSelectedUsernames] = useState()
 
-  const [matchedMovies, setMatchedMovies] = useState([])
+  const [matchedMovieIds, setMatchedMovieIds] = useState([])
 
 // * Get Current User Data
   useEffect(() => {
@@ -64,7 +64,7 @@ const Match = () => {
   const getChosenUserPreferences = async (username) => {
     try {
       const {data} = await axios.get((`${API_URL}/preferences/${username}`))
-      console.log('chosenUserPreferences data', data)
+      // console.log('chosenUserPreferences data', data)
       return data.moviesLiked 
     } catch (error) {
       setError(error)
@@ -73,18 +73,44 @@ const Match = () => {
   }
 
   const findCommonMovies = async () => {
-    console.log('watchwith', watchWith)
+    // console.log('watchwith', watchWith)
     if ('usernames' in watchWith) {
       const chosenUserLikes = await Promise.all(watchWith.usernames.map(async result => {
         const chosenUserPreferences = await getChosenUserPreferences(result)
         return chosenUserPreferences
       }))
       // Combining the likes of chosen users with those of the current user (an array of arrays):
-      const allLikes = chosenUserLikes.concat([userData.moviesLiked])
-      console.log('allLikes', allLikes)
-      const uniqueMovieIds = [...new Set(allLikes.flat())]
-      console.log('uniqueMovieIds', uniqueMovieIds)
-      setMatchedMovies(uniqueMovieIds)
+      const usersLikesArray = chosenUserLikes.concat([userData.moviesLiked])
+      console.log('usersLikesArray', usersLikesArray)
+      // One array of movieIds: any movieId that any of the chosen users + current user have liked. 
+      const everyLikedMovieId = [...new Set(usersLikesArray.flat())]
+      console.log('everyLikedMovieId', everyLikedMovieId)
+
+      // MoviesIds that every chosen user (inc current user) has liked. 
+      // let commonLikes = []
+
+    //   for (let i = usersLikesArray[0].length - 1; i >= 0; i--) {
+    //     for (let j = usersLikesArray.length - 1; j > 0; j--) {
+    //       // console.log('J--->,', j)
+    //       if (usersLikesArray[j].indexOf(usersLikesArray[0][i]) == -1) {
+    //           break;
+    //         }
+    //       if (j >= 1) {
+    //           console.log('J--->,', j)
+    //           commonLikes.push(usersLikesArray[0][i]);
+    //       }
+    //       }
+    // }
+
+    console.log("TESTING", usersLikesArray.slice(1))
+    let commonLikes = usersLikesArray.slice(1).reduce((result, currentArray) => {
+      return currentArray.filter(function(currentItem) {
+          return result.indexOf(currentItem) !== -1;
+      });
+  }, usersLikesArray[0]);
+
+      console.log('COMMON LIKES',commonLikes)
+      // setMatchedMovieIds(commonLikes)
       // return uniqueMovieIds
     }
   } 
@@ -108,9 +134,9 @@ const Match = () => {
     if ('usernames' in watchWith && watchWith.usernames.length > 0) {
       const buttonClicked = event.nativeEvent.submitter.name
       if (buttonClicked === "randomMovie") {
-        navigate(`/movies/${randomMovie(matchedMovies)}`, {state: { matchedMovieIds: matchedMovies, watchWith: watchWith }})
+        navigate(`/movies/${randomMovie(matchedMovieIds)}`, {state: { matchedMovieIds: matchedMovieIds, watchWith: watchWith }})
       } else if (buttonClicked === "movieIndex") {
-        navigate(`/matchedmovies`, {state: { matchedMovieIds: matchedMovies, watchWith: watchWith }})
+        navigate(`/matchedmovies`, {state: { matchedMovieIds: matchedMovieIds, watchWith: watchWith }})
       } 
     } else {
         setError({message: 'Please select a user'})
@@ -157,30 +183,3 @@ return (
 
 export default Match
 
-  // const handleSubmitOld = (event) => {
-  //   event.preventDefault()
-  //   // ERROR TEST
-  //   // const foundUser = allUsersAndTheirLikes.find(user => watchWith.username === user.username)
-  //   // if (foundUser) {
-  //   //   const userMoviesLiked = userData.moviesLiked
-  //   //   const foundUserMoviesLiked = foundUser.moviesLiked
-  //   //   console.log('userMoviesLiked-->',userMoviesLiked)
-  //   //   console.log('foundUserMoviesLiked-->',foundUserMoviesLiked)
-  //   //   const filteredMovies = userMoviesLiked.filter((movie) => {
-  //   //     console.log('movie -->', movie)
-  //   //     console.log('foundUserMoviesLiked.includes(movie) -->', foundUserMoviesLiked.includes('6308a0f76ab8e9f5ff99e1ad'))
-  //   //     console.log('foundUserMoviesLiked.includes(movie)',foundUserMoviesLiked.includes(movie))
-  //   //     return foundUserMoviesLiked.includes(movie)
-  //   //   })
-  //   //     if (filteredMovies.length === 0){
-  //   //     setError({message: 'Sadly, you have no films in common. Please keep swiping to find a match!' })
-  //   //   } else {
-  //   //     setMatchedMovies(filteredMovies)
-  //   //     // navigate(`/movies/matchedmovies` )
-
-  //   //     // navigate(`/movies/${filteredMovies[Math.floor(Math.random() * filteredMovies.length)]}`)
-  //   //   }
-  //   // } else {
-  //   //   setError({ message: 'Please enter a valid username'})
-  //   // }
-  // }

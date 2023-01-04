@@ -13,10 +13,10 @@ export const shuffle = (array) => {
     // console.log('randomIndex', randomIndex)
     currentIndex--
     // console.log('currentIndex', currentIndex)
-    console.log('ARRAY SHUFFLE', [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]])
-    // [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
+    // console.log('ARRAY SHUFFLE', [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]])
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
     // console.log('test', array)
   }
-  console.log('ARRAY AFTER', array)
+  // console.log('ARRAY AFTER', array)
   return array
 }

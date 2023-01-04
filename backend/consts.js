@@ -10,6 +10,7 @@ const consts = {
 
   DB_CONNECTION_STRING: process.env.DB_CONNECTION_STRING || 'mongodb://localhost:27017/movies',
   PORT: process.env.PORT || 4500,
+  // PORT: process.env.PORT,
   JWT_SECRET: process.env.JWT_SECRET || 'JWT_SECRET',
 
 }

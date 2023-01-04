@@ -27,7 +27,7 @@ const MovieIndex = ({ genres, movieData, error, title, watchWith}) => {
   // ! Execution
 
   const handleSearch = (event) => {
-    console.log('FILTERS', filters)
+    // console.log('FILTERS', filters)
     const newObj = {
       ...filters,
       [event.target.name]: event.target.value
@@ -36,18 +36,18 @@ const MovieIndex = ({ genres, movieData, error, title, watchWith}) => {
   }
 
   const handleGenreFilter = (event) => {
-    console.log('FILTERS', filters)
+    // console.log('FILTERS', filters)
     const newObj = {
       ...filters,
       [event.target.name]: event.target.value
     }
-    console.log('FILTERS post', newObj)
+    // console.log('FILTERS post', newObj)
     setFilters(newObj)
     setGenreButton(event.target.value)
   }
 
   const handleSortChange = (event) => {
-    console.log('SORT event->', event)
+    // console.log('SORT event->', event)
     const newObj = {
       ...filters,
       sort: event.value
@@ -56,8 +56,8 @@ const MovieIndex = ({ genres, movieData, error, title, watchWith}) => {
   }
 
   const sortMovies = (movieData) => {
-    console.log('movieData', movieData)
-    console.log('filters.sort', filters.sort)
+    // console.log('movieData', movieData)
+    // console.log('filters.sort', filters.sort)
     if(filters.sort === 'az') {
       return movieData.sort((a,b) => a.name.localeCompare(b.name))
     } else if (filters.sort === 'za') {
